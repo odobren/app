@@ -46,7 +46,7 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
 });
 
 // Добавление обработчика изменения поля пенсионных отчислений
-document.getElementById("pensionContributions").addEventListener("change", function() {
+document.getElementById("pensionContributions").addEventListener("input", function() {
     var pensionContributionsInput = document.getElementById("pensionContributions").value.trim();
     if (pensionContributionsInput === "") return;
 
@@ -60,14 +60,4 @@ document.getElementById("pensionContributions").addEventListener("change", funct
 
     // Вывод результата в поле суммы одобрения
     document.getElementById("approvalAmount").value = approvalAmount;
-});
-
-// Обработчик изменения возраста заемщика для автоматического обновления срока кредита
-document.getElementById("borrowerAge").addEventListener("change", function() {
-    var borrowerAgeInput = document.getElementById("borrowerAge").value.trim();
-    if (borrowerAgeInput === "") return;
-
-    var borrowerAge = parseInt(borrowerAgeInput);
-    var maxLoanTerm = Math.min(15, 68 - borrowerAge);
-    document.getElementById("loanTerm").value = maxLoanTerm;
 });
