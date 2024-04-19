@@ -1,13 +1,32 @@
+// Функция для установки значения срока кредита
+function setLoanTerm() {
+    var borrowerAgeInput = document.getElementById("borrowerAge").value.trim();
+    if (borrowerAgeInput === "") return;
+
+    var borrowerAge = parseInt(borrowerAgeInput);
+    var maxLoanTerm = Math.min(15, 68 - borrowerAge);
+    document.getElementById("loanTerm").value = maxLoanTerm;
+}
+
+// Вызываем функцию при загрузке страницы
+window.onload = function() {
+    setLoanTerm();
+};
+
+// Обработчик изменения возраста заемщика для автоматического обновления срока кредита
+document.getElementById("borrowerAge").addEventListener("change", function() {
+    setLoanTerm();
+});
+
+// Обработчик отправки формы для расчета кредита
 document.getElementById("loanForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
-    var fullNameInput = document.getElementById("fullName").value.trim();
-    var birthDateInput = document.getElementById("birthDate").value.trim();
     var loanAmountInput = document.getElementById("loanAmount").value.trim();
     var borrowerAgeInput = document.getElementById("borrowerAge").value.trim();
     var loanTermInput = document.getElementById("loanTerm").value.trim();
 
-    if (fullNameInput === "" || birthDateInput === "" || loanAmountInput === "" || borrowerAgeInput === "" || loanTermInput === "") {
+    if (loanAmountInput === "" || borrowerAgeInput === "" || loanTermInput === "") {
         alert("Пожалуйста, заполните все поля.");
         return;
     }
@@ -21,12 +40,9 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
         return;
     }
 
-    // Определение максимального срока кредита на основе возраста заемщика
-    var maxLoanTerm = Math.min(15, 68 - borrowerAge);
-
     var annualInterestRate = 18.5; // Процентная ставка 18.5%
     var monthlyInterestRate = annualInterestRate / 100 / 12;
-    var loanTermMonths = maxLoanTerm * 12;
+    var loanTermMonths = loanTermYears * 12;
     
     try {
         // Рассчитываем ежемесячный платеж
