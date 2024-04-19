@@ -5,16 +5,18 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     var borrowerAgeInput = document.getElementById("borrowerAge").value.trim();
     var borrowerNameInput = document.getElementById("borrowerName").value.trim();
     var loanDateInput = document.getElementById("loanDate").value.trim();
+    var pensionContributionsInput = document.getElementById("pensionContributions").value.trim(); // Новое поле
 
-    if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "") {
+    if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "" || pensionContributionsInput === "") { // Измененное условие
         alert("Пожалуйста, заполните все поля.");
         return;
     }
 
     var loanAmount = parseFloat(loanAmountInput.replace(/\D/g, ''));
     var borrowerAge = parseInt(borrowerAgeInput);
+    var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, '')); // Новая переменная
 
-    if (isNaN(loanAmount) || isNaN(borrowerAge) || loanAmount <= 0 || borrowerAge < 18 || borrowerAge > 68) {
+    if (isNaN(loanAmount) || isNaN(borrowerAge) || isNaN(pensionContributions) || loanAmount <= 0 || borrowerAge < 18 || borrowerAge > 68) { // Измененное условие
         alert("Пожалуйста, введите корректные данные.");
         return;
     }
@@ -38,6 +40,10 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
 
         // Выводим результат на страницу
         document.getElementById("monthlyPayment").innerText = "Ежемесячный платеж: " + formattedMonthlyPayment + " тенге";
+
+        // Рассчитываем сумму одобрения по формуле
+        var approvalAmount = (pensionContributions * 8.1 / 6 / 2) / (1.65 / 100);
+        document.getElementById("approvalAmount").value = approvalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     } catch (error) {
         alert("Произошла ошибка при расчете. Пожалуйста, проверьте введенные данные и попробуйте еще раз.");
     }
