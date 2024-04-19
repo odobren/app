@@ -6,23 +6,34 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
   var borrowerAgeInput = document.getElementById("borrowerAge").value.trim();
   var borrowerNameInput = document.getElementById("borrowerName").value.trim();
   var loanDateInput = document.getElementById("loanDate").value.trim();
-  var pensionContributionsInput = document.getElementById("pensionContributions").value.trim();
   var debtClosureDateInput = document.getElementById("debtClosureDate").value.trim();
+  var pensionContributionsInput = document.getElementById("pensionContributions").value.trim(); // Новое поле пенсионных отчислений
 
-  if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "" || pensionContributionsInput === "" || debtClosureDateInput === "") {
+  if (
+    loanAmountInput === "" ||
+    borrowerAgeInput === "" ||
+    borrowerNameInput === "" ||
+    loanDateInput === "" ||
+    debtClosureDateInput === "" ||
+    pensionContributionsInput === ""
+  ) {
     alert("Пожалуйста, заполните все поля.");
     return;
   }
 
-  var loanAmount = parseFloat(loanAmountInput.replace(/\D/g, ''));
+  var loanAmount = parseFloat(loanAmountInput.replace(/\D/g, ""));
   var borrowerAge = parseInt(borrowerAgeInput);
-  var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, ''));
-  var debtClosureDate = new Date(debtClosureDateInput);
-  var loanDate = new Date(loanDateInput);
+  var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, "")); // Преобразование в числовой формат
 
-  // Проверка даты закрытия крупной просрочки
-  if (debtClosureDate < loanDate) {
-    alert("Дата закрытия крупной просрочки не может быть раньше даты кредита.");
+  if (
+    isNaN(loanAmount) ||
+    isNaN(borrowerAge) ||
+    isNaN(pensionContributions) ||
+    loanAmount <= 0 ||
+    borrowerAge < 18 ||
+    borrowerAge > 68
+  ) {
+    alert("Пожалуйста, введите корректные данные.");
     return;
   }
 
@@ -40,25 +51,32 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     // Расчет ежемесячного платежа
     var monthlyPayment = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -loanTermMonths));
 
-    // Расчет срока восстановления кредитной истории в месяцах
-    var creditHistoryRecoveryPeriodMonths = Math.floor((debtClosureDate - loanDate) / (1000 * 60 * 60 * 24 * 30.44)) + 1;
+    // Расчет срока восстановления кредитной истории
+    var loanDate = new Date(loanDateInput);
+    var debtClosureDate = new Date(debtClosureDateInput);
+    var creditRecoveryPeriodMonths = Math.floor((debtClosureDate - loanDate) / (1000 * 60 * 60 * 24 * 30.44));
 
-    // Ограничение срока от 1 до 24 месяцев
-    creditHistoryRecoveryPeriodMonths = Math.min(Math.max(creditHistoryRecoveryPeriodMonths, 1), 24);
+    if (creditRecoveryPeriodMonths <= 0) {
+      alert("Дата закрытия крупной просрочки не может быть раньше даты кредита.");
+      return;
+    }
 
-    // Форматирование вывода
-    var creditHistoryRecoveryPeriodText = creditHistoryRecoveryPeriodMonths === 24 ? "Восстановление не требуется" : creditHistoryRecoveryPeriodMonths + " месяцев";
+    if (creditRecoveryPeriodMonths <= 24) {
+      document.getElementById("creditRecoveryPeriod").value = creditRecoveryPeriodMonths;
+    } else {
+      document.getElementById("creditRecoveryPeriod").value = "Восстановление не требуется";
+    }
 
-    // Рассчитываем сумму одобрения (с учетом пенсионных отчислений и срока восстановления кредитной истории)
-    var approvalAmount = ((pensionContributions * 8.1 / 6 / 2) / 0.0165) * (1 - (creditHistoryRecoveryPeriodMonths / 24));
+    // Расчет суммы одобрения
+    var approvalAmount = ((pensionContributions * 8.1 / 6 / 2) / 0.0165).toFixed(2);
 
     // Форматируем ежемесячный платеж с разделением пробелом
     var formattedMonthlyPayment = monthlyPayment.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
     // Выводим результат на страницу
-    document.getElementById("monthlyPayment").innerText = "Ежемесячный платеж: " + formattedMonthlyPayment + " тенге";
-    document.getElementById("approvalAmount").value = approvalAmount.toFixed(2); // Устанавливаем значение в поле суммы одобрения
-    document.getElementById("creditHistoryRecoveryPeriod").value = creditHistoryRecoveryPeriodText; // Отображение срока восстановления кредитной истории
+    document.getElementById("monthlyPayment").innerText =
+      "Ежемесячный платеж: " + formattedMonthlyPayment + " тенге";
+    document.getElementById("approvalAmount").value = approvalAmount; // Устанавливаем значение в поле суммы одобрения
   } catch (error) {
     alert("Произошла ошибка при расчете. Пожалуйста, проверьте введенные данные и попробуйте еще раз.");
   }
@@ -70,7 +88,7 @@ document.getElementById("borrowerAge").addEventListener("change", function() {
   if (borrowerAgeInput === "") return;
 
   var borrowerAge = parseInt(borrowerAgeInput);
-   var maxLoanTerm = Math.min(15, 68 - borrowerAge);
+  var maxLoanTerm = Math.min(15, 68 - borrowerAge);
   document.getElementById("loanTerm").value = maxLoanTerm;
 });
 
@@ -85,13 +103,10 @@ function calculateApprovalAmount() {
 
   if (pensionContributionsInput === "") return;
 
-  var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, '')); // Преобразование в числовой формат
-  var creditHistoryRecoveryPeriodMonths = parseInt(document.getElementById("creditHistoryRecoveryPeriod").value); // Получаем значение срока восстановления из поля ввода
+  var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, "")); // Преобразование в числовой формат
 
-  // Учитываем срок восстановления кредитной истории при расчете суммы одобрения
-  var approvalAmount = ((pensionContributions * 8.1 / 6 / 2) / 0.0165) * (1 - (creditHistoryRecoveryPeriodMonths / 24));
+  var approvalAmount = ((pensionContributions * 8.1 / 6 / 2) / 0.0165).toFixed(2);
 
   // Устанавливаем значение в поле суммы одобрения
-  document.getElementById("approvalAmount").value = approvalAmount.toFixed(2);
+  document.getElementById("approvalAmount").value = approvalAmount;
 }
-
