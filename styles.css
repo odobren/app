@@ -71,25 +71,11 @@ button[type="submit"]:hover {
 }
 
 
-input[type="date"] {
-    width: calc(100% - 22px);
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
+.birthdate-container {
+    display: flex;
+    align-items: center;
 }
 
-/* Изменяем стиль для стрелочки в поле Дата */
-input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
-    margin: 0;
+.birthdate-container label {
+    margin-right: 10px;
 }
-
-/* Добавляем стили для выравнивания поля ввода даты рождения */
-#birthDate {
-    width: calc(100% - 180px); /* Уменьшаем ширину поля ввода для даты */
-    margin-left: 10px; /* Добавляем небольшое смещение слева */
-}
-
