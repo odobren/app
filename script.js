@@ -5,18 +5,18 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     var borrowerAgeInput = document.getElementById("borrowerAge").value.trim();
     var borrowerNameInput = document.getElementById("borrowerName").value.trim();
     var loanDateInput = document.getElementById("loanDate").value.trim();
-    var pensionContributionsInput = document.getElementById("pensionContributions").value.trim(); // Новое поле
+    var pensionContributionsInput = document.getElementById("pensionContributions").value.trim();
 
-    if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "" || pensionContributionsInput === "") { // Измененное условие
+    if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "" || pensionContributionsInput === "") {
         alert("Пожалуйста, заполните все поля.");
         return;
     }
 
     var loanAmount = parseFloat(loanAmountInput.replace(/\D/g, ''));
     var borrowerAge = parseInt(borrowerAgeInput);
-    var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, '')); // Новая переменная
+    var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, ''));
 
-    if (isNaN(loanAmount) || isNaN(borrowerAge) || isNaN(pensionContributions) || loanAmount <= 0 || borrowerAge < 18 || borrowerAge > 68) { // Измененное условие
+    if (isNaN(loanAmount) || isNaN(borrowerAge) || isNaN(pensionContributions) || loanAmount <= 0 || borrowerAge < 18 || borrowerAge > 68) {
         alert("Пожалуйста, введите корректные данные.");
         return;
     }
@@ -40,13 +40,26 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
 
         // Выводим результат на страницу
         document.getElementById("monthlyPayment").innerText = "Ежемесячный платеж: " + formattedMonthlyPayment + " тенге";
-
-        // Рассчитываем сумму одобрения по формуле
-        var approvalAmount = (pensionContributions * 8.1 / 6 / 2) / (1.65 / 100);
-        document.getElementById("approvalAmount").value = approvalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     } catch (error) {
         alert("Произошла ошибка при расчете. Пожалуйста, проверьте введенные данные и попробуйте еще раз.");
     }
+});
+
+// Добавление обработчика изменения поля пенсионных отчислений
+document.getElementById("pensionContributions").addEventListener("change", function() {
+    var pensionContributionsInput = document.getElementById("pensionContributions").value.trim();
+    if (pensionContributionsInput === "") return;
+
+    var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, ''));
+
+    // Расчет суммы одобрения
+    var approvalAmount = (pensionContributions * 8.1 / 6 / 2) / 1.65 / 100;
+
+    // Округление до двух знаков после запятой
+    approvalAmount = Math.round(approvalAmount * 100) / 100;
+
+    // Вывод результата в поле суммы одобрения
+    document.getElementById("approvalAmount").value = approvalAmount;
 });
 
 // Обработчик изменения возраста заемщика для автоматического обновления срока кредита
