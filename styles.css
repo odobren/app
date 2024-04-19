@@ -69,3 +69,21 @@ button[type="submit"]:hover {
 #monthlyPayment {
     margin-top: 20px;
 }
+
+
+input[type="date"] {
+    width: calc(100% - 22px);
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+/* Изменяем стиль для стрелочки в поле Дата */
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+    margin: 0;
+}
+
