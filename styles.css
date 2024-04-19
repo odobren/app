@@ -71,11 +71,20 @@ button[type="submit"]:hover {
 }
 
 
-.birthdate-container {
-    display: flex;
-    align-items: center;
+/* Добавленные стили для поля ввода даты */
+input[type="date"] {
+    width: calc(100% - 22px);
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
 }
 
-.birthdate-container label {
+/* Стили для выравнивания заголовка и поля ввода даты в одну строку */
+label[for="birthDate"] {
+    display: inline-block;
+    width: 90px; /* Ширина заголовка */
+    text-align: right;
     margin-right: 10px;
+    margin-bottom: 0; /* Убираем лишний отступ снизу */
 }
