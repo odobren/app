@@ -1,4 +1,4 @@
- // Обработчик отправки формы
+// Обработчик отправки формы
 document.getElementById("loanForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -7,8 +7,9 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     var borrowerNameInput = document.getElementById("borrowerName").value.trim();
     var loanDateInput = document.getElementById("loanDate").value.trim();
     var pensionContributionsInput = document.getElementById("pensionContributions").value.trim(); // Новое поле пенсионных отчислений
+    var latePaymentDateInput = document.getElementById("latePaymentDate").value.trim(); // Новое поле даты закрытия крупной просрочки
 
-    if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "" || pensionContributionsInput === "") {
+    if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "" || pensionContributionsInput === "" || latePaymentDateInput === "") {
         alert("Пожалуйста, заполните все поля.");
         return;
     }
@@ -45,6 +46,17 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
         // Выводим результат на страницу
         document.getElementById("monthlyPayment").innerText = "Ежемесячный платеж: " + formattedMonthlyPayment + " тенге";
         document.getElementById("approvalAmount").value = approvalAmount; // Устанавливаем значение в поле суммы одобрения
+
+        // Рассчитываем срок восстановления кредитной истории
+        var loanDate = new Date(loanDateInput);
+        var latePaymentDate = new Date(latePaymentDateInput);
+        var creditHistoryRecoveryMonths = Math.round((loanDate - latePaymentDate) / (30 * 24 * 60 * 60 * 1000));
+
+        if (creditHistoryRecoveryMonths > 24) {
+            document.getElementById("creditHistoryRecovery").value = "Восстановление не требуется";
+        } else {
+            document.getElementById("creditHistoryRecovery").value = creditHistoryRecoveryMonths + " месяцев";
+        }
     } catch (error) {
         alert("Произошла ошибка при расчете. Пожалуйста, проверьте введенные данные и попробуйте еще раз.");
     }
@@ -78,4 +90,3 @@ function calculateApprovalAmount() {
     // Устанавливаем значение в поле суммы одобрения
     document.getElementById("approvalAmount").value = approvalAmount;
 }
-
