@@ -38,10 +38,11 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     // Рассчитываем ежемесячный платеж
     var monthlyPayment = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -loanTermMonths));
 
-    // Рассчитываем срок восстановления кредитной истории
-    var loanDate = new Date(loanDateInput); // Создаем объект даты подачи заявки
-    var diffInMonths = Math.round(Math.abs(closureDate - loanDate) / (1000 * 60 * 60 * 24 * 30)); // Разница в месяцах
-    var recoveryTerm = Math.min(24, diffInMonths); // Ограничение срока восстановления 24 месяцами
+    // Расчет срока восстановления кредитной истории
+    var loanDate = new Date(loanDateInput);
+    var closureDate = new Date(closureDateInput);
+    var diffInMonths = Math.round(Math.abs(closureDate - loanDate) / (1000 * 60 * 60 * 24 * 30));
+    var recoveryTerm = 24 - Math.min(24, diffInMonths); // Обратный отсчет от 24 месяцев
 
     // Форматируем ежемесячный платеж с разделением пробелом
     var formattedMonthlyPayment = monthlyPayment.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -87,4 +88,3 @@ function calculateApprovalAmount() {
   // Устанавливаем значение в поле суммы одобрения
   document.getElementById("approvalAmount").value = approvalAmount;
 }
-
