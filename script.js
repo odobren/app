@@ -1,7 +1,13 @@
+function formatCurrency(input) {
+    var value = input.value.replace(/\D/g, '');
+    var formattedValue = new Intl.NumberFormat('ru-RU').format(value);
+    input.value = formattedValue;
+}
+
 document.getElementById("loanForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
-    var loanAmount = parseFloat(document.getElementById("loanAmount").value.replace(/\D/g, '').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 '));
+    var loanAmount = parseFloat(document.getElementById("loanAmount").value.replace(/\D/g, ''));
     var annualInterestRate = parseFloat(document.getElementById("annualInterestRate").value.replace(",", ".")); // Заменяем запятую на точку для точности вычислений
     var loanTermYears = parseInt(document.getElementById("loanTerm").value);
 
@@ -16,6 +22,9 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     // Рассчитываем ежемесячный платеж
     var monthlyPayment = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -loanTermMonths));
 
+    // Форматируем ежемесячный платеж с разделением пробелом
+    var formattedMonthlyPayment = monthlyPayment.toLocaleString('ru-RU');
+
     // Выводим результат на страницу
-    document.getElementById("monthlyPayment").innerText = "Ежемесячный платеж: " + monthlyPayment.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " тенге";
+    document.getElementById("monthlyPayment").innerText = "Ежемесячный платеж: " + formattedMonthlyPayment + " тенге";
 });
