@@ -2,7 +2,6 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
     var loanAmountInput = document.getElementById("loanAmount").value.trim();
-    var loanInterestRate = 18.5; // Устанавливаем процентную ставку в 18.5%
     var loanTermInput = document.getElementById("loanTerm").value.trim();
 
     if (loanAmountInput === "" || loanTermInput === "") {
@@ -11,14 +10,15 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     }
 
     var loanAmount = parseFloat(loanAmountInput.replace(/\D/g, ''));
-    var loanTermYears = parseInt(loanTermInput);
+    var loanTermYears = parseFloat(loanTermInput);
 
     if (isNaN(loanAmount) || isNaN(loanTermYears) || loanAmount <= 0 || loanTermYears <= 0) {
         alert("Пожалуйста, введите корректные данные.");
         return;
     }
 
-    var monthlyInterestRate = loanInterestRate / 100 / 12;
+    var annualInterestRate = 18.5; // Процентная ставка 18.5%
+    var monthlyInterestRate = annualInterestRate / 100 / 12;
     var loanTermMonths = loanTermYears * 12;
     
     try {
