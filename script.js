@@ -1,9 +1,3 @@
-function formatCurrency(input) {
-    var value = input.value.replace(/\D/g, '');
-    var formattedValue = new Intl.NumberFormat('ru-RU').format(value);
-    input.value = formattedValue;
-}
-
 document.getElementById("loanForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -23,7 +17,7 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     var monthlyPayment = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -loanTermMonths));
 
     // Форматируем ежемесячный платеж с разделением пробелом
-    var formattedMonthlyPayment = monthlyPayment.toLocaleString('ru-RU');
+    var formattedMonthlyPayment = monthlyPayment.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
     // Выводим результат на страницу
     document.getElementById("monthlyPayment").innerText = "Ежемесячный платеж: " + formattedMonthlyPayment + " тенге";
