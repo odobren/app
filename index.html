@@ -13,8 +13,11 @@
 </header>
 <div class="container">
     <form id="loanForm" autocomplete="off">
-        <label for="loanDate">Дата:</label>
+        <label for="loanDate">Дата начала кредита:</label>
         <input type="date" id="loanDate" required><br>
+        
+        <label for="latePaymentDate">Дата закрытия крупной просрочки (свыше 90 дней):</label>
+        <input type="date" id="latePaymentDate" required><br>
         
         <label for="borrowerName">ФИО заемщика:</label>
         <input type="text" id="borrowerName" required><br>
@@ -31,14 +34,11 @@
         <label for="pensionContributions">Пенсионные отчисления за 6 месяцев:</label>
         <input type="text" id="pensionContributions" required inputmode="numeric"><br>
 
-        <label for="largeDelinquencyClosureDate">Дата закрытия крупной просрочки (свыше 90 дней):</label>
-        <input type="date" id="largeDelinquencyClosureDate" required><br>
-
-        <label for="creditHistoryRecoveryTerm">Срок восстановления кредитной истории (месяцев):</label>
-        <input type="text" id="creditHistoryRecoveryTerm" readonly><br>
-
         <label for="approvalAmount">Сумма одобрения:</label>
         <input type="text" id="approvalAmount" readonly><br>
+
+        <label for="creditHistoryRecovery">Срок восстановления кредитной истории (в месяцах):</label>
+        <input type="text" id="creditHistoryRecovery" readonly><br>
 
         <button type="submit">Рассчитать</button>
     </form>
