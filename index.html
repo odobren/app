@@ -15,8 +15,8 @@
     <form id="loanForm" autocomplete="off">
         <label for="loanAmount">Сумма кредита (в тенге):</label>
         <input type="text" id="loanAmount" required pattern="\d+" min="0"><br>
-        <!-- Скрытое поле для процентной ставки -->
-        <input type="hidden" id="annualInterestRate">
+        <!-- Убираем поле ввода процентной ставки и применяем фиксированную ставку 18.5% -->
+        <input type="hidden" id="annualInterestRate" value="18.5">
         <label for="loanTerm">Срок кредита (в годах):</label>
         <input type="text" id="loanTerm" required pattern="\d+" min="0"><br>
         <button type="submit">Рассчитать</button>
