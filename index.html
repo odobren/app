@@ -34,11 +34,12 @@
 <label for="approvalAmount">Сумма одобрения:</label>
 <input type="text" id="approvalAmount" readonly><br>
 
-        <label for="majorDefaultClosureDate">Дата закрытия крупной просрочки:</label>
-<input type="date" id="majorDefaultClosureDate"><br>
+        <label for="majorDelinquencyDate">Дата закрытия крупной просрочки (свыше 90 дней):</label>
+<input type="date" id="majorDelinquencyDate" required><br>
 
-<label for="creditHistoryRecoveryTerm">Срок восстановления кредитной истории:</label>
-<input type="text" id="creditHistoryRecoveryTerm" readonly><br>
+<label for="creditHistoryRecovery">Срок восстановления кредитной истории:</label>
+<input type="text" id="creditHistoryRecovery" readonly><br>
+
 
 
         <button type="submit">Рассчитать</button>
