@@ -1,43 +1,36 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Задаем фиксированное значение процентной ставки
-    var annualInterestRate = 18.5;
+document.getElementById("loanForm").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-    // Скрываем поле ввода процентной ставки
-    document.getElementById("annualInterestRate").style.display = "none";
+    var loanAmountInput = document.getElementById("loanAmount").value.trim();
+    var loanTermInput = document.getElementById("loanTerm").value.trim();
 
-    document.getElementById("loanForm").addEventListener("submit", function(event) {
-        event.preventDefault();
+    if (loanAmountInput === "" || loanTermInput === "") {
+        alert("Пожалуйста, заполните все поля.");
+        return;
+    }
 
-        var loanAmountInput = document.getElementById("loanAmount").value.trim();
-        var loanTermInput = document.getElementById("loanTerm").value.trim();
+    var loanAmount = parseFloat(loanAmountInput.replace(/\D/g, ''));
+    var annualInterestRate = 18.5; // Устанавливаем процентную ставку как 18.5%
+    var loanTermYears = parseInt(loanTermInput);
 
-        if (loanAmountInput === "" || loanTermInput === "") {
-            alert("Пожалуйста, заполните все поля.");
-            return;
-        }
+    if (isNaN(loanAmount) || isNaN(loanTermYears) || loanAmount <= 0 || loanTermYears <= 0) {
+        alert("Пожалуйста, введите корректные данные.");
+        return;
+    }
 
-        var loanAmount = parseFloat(loanAmountInput.replace(/\D/g, ''));
-        var loanTermYears = parseInt(loanTermInput);
+    var monthlyInterestRate = annualInterestRate / 100 / 12;
+    var loanTermMonths = loanTermYears * 12;
+    
+    try {
+        // Рассчитываем ежемесячный платеж
+        var monthlyPayment = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -loanTermMonths));
 
-        if (isNaN(loanAmount) || isNaN(loanTermYears) || loanAmount <= 0 || loanTermYears <= 0) {
-            alert("Пожалуйста, введите корректные данные.");
-            return;
-        }
+        // Форматируем ежемесячный платеж с разделением пробелом
+        var formattedMonthlyPayment = monthlyPayment.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
-        var monthlyInterestRate = annualInterestRate / 100 / 12;
-        var loanTermMonths = loanTermYears * 12;
-        
-        try {
-            // Рассчитываем ежемесячный платеж
-            var monthlyPayment = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -loanTermMonths));
-
-            // Форматируем ежемесячный платеж с разделением пробелом
-            var formattedMonthlyPayment = monthlyPayment.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-
-            // Выводим результат на страницу
-            document.getElementById("monthlyPayment").innerText = "Ежемесячный платеж: " + formattedMonthlyPayment + " тенге";
-        } catch (error) {
-            alert("Произошла ошибка при расчете. Пожалуйста, проверьте введенные данные и попробуйте еще раз.");
-        }
-    });
+        // Выводим результат на страницу
+        document.getElementById("monthlyPayment").innerText = "Ежемесячный платеж: " + formattedMonthlyPayment + " тенге";
+    } catch (error) {
+        alert("Произошла ошибка при расчете. Пожалуйста, проверьте введенные данные и попробуйте еще раз.");
+    }
 });
