@@ -34,3 +34,9 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
         alert("Произошла ошибка при расчете. Пожалуйста, проверьте введенные данные и попробуйте еще раз.");
     }
 });
+
+document.getElementById("loanAmount").addEventListener("input", function(event) {
+    var input = event.target.value.replace(/\D/g, ''); // Удаляем все нецифровые символы
+    var formattedInput = input.replace(/\B(?=(\d{3})+(?!\d))/g, " "); // Добавляем разделение после каждых трех цифр
+    event.target.value = formattedInput;
+});
