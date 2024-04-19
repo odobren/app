@@ -1,8 +1,8 @@
 document.getElementById("loanForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
-    var loanAmount = parseFloat(document.getElementById("loanAmount").value.replace(/\s/g, '').replace(",", ".")); // Убираем пробелы и меняем запятую на точку
-    var annualInterestRate = parseFloat(document.getElementById("annualInterestRate").value.replace(/\s/g, '').replace(",", ".")); // Убираем пробелы и меняем запятую на точку
+    var loanAmount = parseFloat(document.getElementById("loanAmount").value.replace(/\D/g, '').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 '));
+    var annualInterestRate = parseFloat(document.getElementById("annualInterestRate").value.replace(",", ".")); // Заменяем запятую на точку для точности вычислений
     var loanTermYears = parseInt(document.getElementById("loanTerm").value);
 
     if (isNaN(loanAmount) || isNaN(annualInterestRate) || isNaN(loanTermYears) || loanAmount <= 0 || annualInterestRate <= 0 || loanTermYears <= 0) {
