@@ -1,3 +1,4 @@
+// Обработчик отправки формы
 document.getElementById("loanForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -58,3 +59,22 @@ document.getElementById("borrowerAge").addEventListener("change", function() {
     var maxLoanTerm = Math.min(15, 68 - borrowerAge);
     document.getElementById("loanTerm").value = maxLoanTerm;
 });
+
+// Обработчик изменения поля с пенсионными отчислениями для автоматического обновления суммы одобрения
+document.getElementById("pensionContributions").addEventListener("input", function() {
+    calculateApprovalAmount(); // Вызываем функцию для расчета суммы одобрения
+});
+
+// Функция для расчета суммы одобрения
+function calculateApprovalAmount() {
+    var pensionContributionsInput = document.getElementById("pensionContributions").value.trim();
+
+    if (pensionContributionsInput === "") return;
+
+    var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, '')); // Преобразование в числовой формат
+
+    var approvalAmount = ((pensionContributions * 8.1 / 6 / 2) / 0.0165).toFixed(2);
+
+    // Устанавливаем значение в поле суммы одобрения
+    document.getElementById("approvalAmount").value = approvalAmount;
+}
