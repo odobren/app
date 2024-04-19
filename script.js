@@ -2,25 +2,19 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
     var loanAmountInput = document.getElementById("loanAmount").value.trim();
-    var annualInterestRateInput = document.getElementById("annualInterestRate").value.trim();
     var loanTermInput = document.getElementById("loanTerm").value.trim();
 
-    if (loanAmountInput === "" || annualInterestRateInput === "" || loanTermInput === "") {
+    if (loanAmountInput === "" || loanTermInput === "") {
         alert("Пожалуйста, заполните все поля.");
         return;
     }
 
     var loanAmount = parseFloat(loanAmountInput.replace(/\D/g, ''));
-    var annualInterestRate = parseFloat(annualInterestRateInput.replace(",", "."));
+    var annualInterestRate = 18.5; // Установим процентную ставку в 18.5%
     var loanTermYears = parseInt(loanTermInput);
 
-    if (isNaN(loanAmount) || isNaN(annualInterestRate) || isNaN(loanTermYears) || loanAmount <= 0 || annualInterestRate <= 0 || loanTermYears <= 0) {
+    if (isNaN(loanAmount) || isNaN(loanTermYears) || loanAmount <= 0 || loanTermYears <= 0) {
         alert("Пожалуйста, введите корректные данные.");
-        return;
-    }
-
-    if (annualInterestRate > 100) {
-        alert("Годовая процентная ставка не может быть больше 100%.");
         return;
     }
 
