@@ -10,7 +10,7 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     }
 
     var loanAmount = parseFloat(loanAmountInput.replace(/\D/g, ''));
-    var annualInterestRate = 18.5; // Установим процентную ставку в 18.5%
+    var annualInterestRate = 18.5; // Установка процентной ставки на 18.5%
     var loanTermYears = parseInt(loanTermInput);
 
     if (isNaN(loanAmount) || isNaN(loanTermYears) || loanAmount <= 0 || loanTermYears <= 0) {
