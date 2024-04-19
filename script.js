@@ -45,39 +45,11 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     }
 });
 
-// Обработчик изменения возраста заемщика для автоматического обновления срока кредита
-document.getElementById("borrowerAge").addEventListener("change", function() {
-    var borrowerAgeInput = document.getElementById("borrowerAge").value.trim();
-    if (borrowerAgeInput === "") return;
-
-    var borrowerAge = parseInt(borrowerAgeInput);
-    var maxLoanTerm = Math.min(15, 68 - borrowerAge);
-    document.getElementById("loanTerm").value = maxLoanTerm;
-});
-
-// Обработчик изменения поля с пенсионными отчислениями для автоматического обновления суммы одобрения
-document.getElementById("pensionContributions").addEventListener("input", function() {
-    calculateApprovalAmount(); // Вызываем функцию для расчета суммы одобрения
-});
-
-// Функция для расчета суммы одобрения
-function calculateApprovalAmount() {
-    var pensionContributionsInput = document.getElementById("pensionContributions").value.trim();
-
-    if (pensionContributionsInput === "") return;
-
-    var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, '')); // Преобразование в числовой формат
-
-    var approvalAmount = ((pensionContributions * 8.1 / 6 / 2) / 0.0165).toFixed(2);
-
-    document.getElementById("approvalAmount").value = approvalAmount;
-}
-
 // Функция для вычисления срока восстановления кредитной истории
 function calculateRecoveryPeriod(loanDate, overdueDate) {
     var loanDateObj = new Date(loanDate);
     var overdueDateObj = new Date(overdueDate);
-    var differenceInMonths = (overdueDateObj.getFullYear() - loanDateObj.getFullYear()) * 12 + (overdueDateObj.getMonth() - loanDateObj.getMonth());
+    var differenceInMonths = (overdueDateObj.getFullYear() - loanDateObj.getFullYear()) * 12 + (overdueDateObj.getMonth() - loanDateObj.getMonth()) + 1;
     if (differenceInMonths <= 24) {
         return differenceInMonths + " месяца";
     } else {
