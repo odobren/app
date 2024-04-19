@@ -88,3 +88,33 @@ label[for="birthDate"] {
     margin-right: 10px;
     margin-bottom: 0; /* Убираем лишний отступ снизу */
 }
+
+
+
+
+
+/* Стили для поля "Дата закрытия крупной просрочки" */
+input[type="date"] {
+  width: calc(100% - 22px);
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+/* Стили для поля "Срок восстановления кредитной истории" */
+label[for="creditHistoryRecoveryPeriod"] {
+  display: inline-block;
+  width: 230px; /* Ширина заголовка */
+  text-align: right;
+  margin-right: 10px;
+  margin-bottom: 0; /* Убираем лишний отступ снизу */
+}
+
+input[type="text"]#creditHistoryRecoveryPeriod {
+  width: calc(100% - 250px); /* Ширина поля ввода */
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
