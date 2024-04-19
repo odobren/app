@@ -3,8 +3,10 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
 
     var loanAmountInput = document.getElementById("loanAmount").value.trim();
     var borrowerAgeInput = document.getElementById("borrowerAge").value.trim();
+    var borrowerNameInput = document.getElementById("borrowerName").value.trim();
+    var loanDateInput = document.getElementById("loanDate").value.trim();
 
-    if (loanAmountInput === "" || borrowerAgeInput === "") {
+    if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "") {
         alert("Пожалуйста, заполните все поля.");
         return;
     }
