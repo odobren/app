@@ -87,3 +87,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin: 0;
 }
 
+/* Добавляем стили для выравнивания поля ввода даты рождения */
+#birthDate {
+    width: calc(100% - 180px); /* Уменьшаем ширину поля ввода для даты */
+    margin-left: 10px; /* Добавляем небольшое смещение слева */
+}
+
