@@ -96,6 +96,10 @@ function calculateCreditHistoryRecovery() {
     var loanDate = new Date(loanDateInput);
     var latePaymentClosureDate = new Date(latePaymentClosureDateInput);
 
+    // Проверка, что даты распознались правильно
+    console.log("Дата выдачи кредита:", loanDate.toDateString());
+    console.log("Дата закрытия крупной просрочки:", latePaymentClosureDate.toDateString());
+
     var timeDifference = latePaymentClosureDate.getTime() - loanDate.getTime();
     var monthsDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 30));
 
@@ -107,7 +111,3 @@ function calculateCreditHistoryRecovery() {
         document.getElementById("creditHistoryRecovery").value = "Восстановление не требуется";
     }
 }
-
-// Вызываем функцию при загрузке страницы, чтобы отобразить результаты по умолчанию
-calculateApprovalAmount();
-calculateCreditHistoryRecovery();
