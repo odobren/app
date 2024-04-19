@@ -55,17 +55,15 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     }
 });
 
-// Функция для расчета срока восстановления кредитной истории
-function calculateCreditHistoryRecoveryTerm(badDebtClosingDate, loanDate) {
-    var millisecondsInMonth = 1000 * 60 * 60 * 24 * 30; // Примерное количество миллисекунд в месяце
-    var differenceInMonths = Math.round((badDebtClosingDate - loanDate) / millisecondsInMonth);
+// Обработчик изменения поля с пенсионными отчислениями для автоматического обновления суммы одобрения
+document.getElementById("pensionContributions").addEventListener("input", function() {
+    calculateApprovalAmount(); // Вызываем функцию для расчета суммы одобрения
+});
 
-    if (differenceInMonths > 24) {
-        return "Восстановление не требуется";
-    }
-
-    return differenceInMonths + " месяцев";
-}
+// Обработчик изменения поля с датой закрытия крупной просрочки для автоматического пересчета срока восстановления
+document.getElementById("badDebtClosingDate").addEventListener("input", function() {
+    calculateCreditHistoryRecoveryTermAndUpdate(); // Вызываем функцию для автоматического пересчета срока восстановления
+});
 
 // Функция для расчета суммы одобрения
 function calculateApprovalAmount() {
@@ -81,7 +79,25 @@ function calculateApprovalAmount() {
     document.getElementById("approvalAmount").value = approvalAmount;
 }
 
-// Обработчик изменения поля с пенсионными отчислениями для автоматического обновления суммы одобрения
-document.getElementById("pensionContributions").addEventListener("input", function() {
-    calculateApprovalAmount(); // Вызываем функцию для расчета суммы одобрения
-});
+// Функция для пересчета срока восстановления и его обновления на странице
+function calculateCreditHistoryRecoveryTermAndUpdate() {
+    var badDebtClosingDateInput = document.getElementById("badDebtClosingDate").value.trim();
+    var loanDateInput = document.getElementById("loanDate").value.trim();
+
+    if (badDebtClosingDateInput === "" || loanDateInput === "") return;
+
+    var creditHistoryRecoveryTerm = calculateCreditHistoryRecoveryTerm(new Date(badDebtClosingDateInput), new Date(loanDateInput));
+    document.getElementById("creditHistoryRecoveryTerm").value = creditHistoryRecoveryTerm;
+}
+
+// Функция для расчета срока восстановления кредитной истории
+function calculateCreditHistoryRecoveryTerm(badDebtClosingDate, loanDate) {
+    var millisecondsInMonth = 1000 * 60 * 60 * 24 * 30; // Примерное количество миллисекунд в месяце
+    var differenceInMonths = Math.round((badDebtClosingDate - loanDate) / millisecondsInMonth);
+
+    if (differenceInMonths > 24) {
+        return "Восстановление не требуется";
+    }
+
+    return differenceInMonths + " месяцев";
+}
