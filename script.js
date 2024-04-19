@@ -57,14 +57,15 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
 
 // Функция для расчета срока восстановления кредитной истории
 function calculateCreditHistoryRecoveryTerm(badDebtClosingDate, loanDate) {
-    var millisecondsInMonth = 1000 * 60 * 60 * 24 * 30; // Примерное количество миллисекунд в месяце
-    var differenceInMonths = Math.round((badDebtClosingDate - loanDate) / millisecondsInMonth);
+    var monthsDifference = (badDebtClosingDate.getFullYear() - loanDate.getFullYear()) * 12;
+    monthsDifference -= loanDate.getMonth() + 1;
+    monthsDifference += badDebtClosingDate.getMonth() + 1;
 
-    if (differenceInMonths > 24) {
+    if (monthsDifference > 24) {
         return "Восстановление не требуется";
     }
 
-    return differenceInMonths;
+    return monthsDifference;
 }
 
 // Обработчик изменения поля с пенсионными отчислениями для автоматического обновления суммы одобрения
