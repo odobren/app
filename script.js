@@ -1,4 +1,3 @@
-// Обработчик отправки формы
 document.getElementById("loanForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -6,9 +5,10 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     var borrowerAgeInput = document.getElementById("borrowerAge").value.trim();
     var borrowerNameInput = document.getElementById("borrowerName").value.trim();
     var loanDateInput = document.getElementById("loanDate").value.trim();
-    var pensionContributionsInput = document.getElementById("pensionContributions").value.trim(); // Новое поле пенсионных отчислений
+    var pensionContributionsInput = document.getElementById("pensionContributions").value.trim();
+    var majorDelinquencyDateInput = document.getElementById("majorDelinquencyDate").value.trim(); // Новое поле для даты закрытия крупной просрочки
 
-    if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "" || pensionContributionsInput === "") {
+    if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "" || pensionContributionsInput === "" || majorDelinquencyDateInput === "") {
         alert("Пожалуйста, заполните все поля.");
         return;
     }
@@ -80,33 +80,33 @@ function calculateApprovalAmount() {
 }
 
 
+// Расчет срока восстановления кредитной истории
+    var loanDate = new Date(loanDateInput);
+    var majorDelinquencyDate = new Date(majorDelinquencyDateInput);
+    var creditHistoryRecoveryMonths = Math.ceil((loanDate - majorDelinquencyDate) / (1000 * 60 * 60 * 24 * 30)); // Разница в месяцах
+    var creditHistoryRecovery = (creditHistoryRecoveryMonths <= 24) ? creditHistoryRecoveryMonths + " месяца" : "Восстановление не требуется";
 
-    // Рассчитываем срок восстановления кредитной истории
-    calculateCreditHistoryRecoveryTerm();
+    // Установка значения в поле срока восстановления кредитной истории
+    document.getElementById("creditHistoryRecovery").value = creditHistoryRecovery;
 });
 
-function calculateCreditHistoryRecoveryTerm() {
-    var loanDateInput = new Date(document.getElementById("loanDate").value.trim());
-    var majorDefaultClosureDateInput = new Date(document.getElementById("majorDefaultClosureDate").value.trim());
+// Обработчик изменения поля с датой закрытия крупной просрочки для автоматического обновления срока восстановления кредитной истории
+document.getElementById("majorDelinquencyDate").addEventListener("change", function() {
+    calculateCreditHistoryRecovery(); // Вызываем функцию для расчета срока восстановления кредитной истории
+});
 
-    // Проверяем, чтобы дата закрытия крупной просрочки была введена
-    if (!majorDefaultClosureDateInput || isNaN(majorDefaultClosureDateInput.getTime())) {
-        document.getElementById("creditHistoryRecoveryTerm").value = "";
-        return;
-    }
+// Функция для расчета срока восстановления кредитной истории
+function calculateCreditHistoryRecovery() {
+    var loanDateInput = document.getElementById("loanDate").value.trim();
+    var majorDelinquencyDateInput = document.getElementById("majorDelinquencyDate").value.trim();
 
-    var differenceInMonths = (loanDateInput.getMonth() - majorDefaultClosureDateInput.getMonth()) +
-        (12 * (loanDateInput.getFullYear() - majorDefaultClosureDateInput.getFullYear()));
+    if (loanDateInput === "" || majorDelinquencyDateInput === "") return;
 
-    // Проверяем, чтобы разница не превышала 24 месяца
-    if (differenceInMonths > 24) {
-        document.getElementById("creditHistoryRecoveryTerm").value = "Восстановление не требуется";
-    } else {
-        document.getElementById("creditHistoryRecoveryTerm").value = differenceInMonths + " месяцев";
-    }
+    var loanDate = new Date(loanDateInput);
+    var majorDelinquencyDate = new Date(majorDelinquencyDateInput);
+    var creditHistoryRecoveryMonths = Math.ceil((loanDate - majorDelinquencyDate) / (1000 * 60 * 60 * 24 * 30)); // Разница в месяцах
+    var creditHistoryRecovery = (creditHistoryRecoveryMonths <= 24) ? creditHistoryRecoveryMonths + " месяца" : "Восстановление не требуется";
+
+    // Установка значения в поле срока восстановления кредитной истории
+    document.getElementById("creditHistoryRecovery").value = creditHistoryRecovery;
 }
-// Обработчик изменения поля "Дата закрытия крупной просрочки" для автоматического обновления срока восстановления кредитной истории
-document.getElementById("majorDefaultClosureDate").addEventListener("input", function() {
-    calculateCreditHistoryRecoveryTerm(); // Вызываем функцию для расчета срока восстановления кредитной истории
-});
-
