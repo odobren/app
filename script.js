@@ -49,7 +49,7 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
 
         // Рассчитываем срок восстановления кредитной истории
         var creditHistoryRecoveryTerm = calculateCreditHistoryRecoveryTerm(new Date(badDebtClosingDateInput), new Date(loanDateInput));
-        document.getElementById("creditHistoryRecoveryTerm").value = creditHistoryRecoveryTerm + " месяцев";
+        document.getElementById("creditHistoryRecoveryTerm").value = creditHistoryRecoveryTerm;
     } catch (error) {
         alert("Произошла ошибка при расчете. Пожалуйста, проверьте введенные данные и попробуйте еще раз.");
     }
@@ -57,21 +57,15 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
 
 // Функция для расчета срока восстановления кредитной истории
 function calculateCreditHistoryRecoveryTerm(badDebtClosingDate, loanDate) {
-    var monthsDifference = (badDebtClosingDate.getFullYear() - loanDate.getFullYear()) * 12;
-    monthsDifference -= loanDate.getMonth() + 1;
-    monthsDifference += badDebtClosingDate.getMonth() + 1;
+    var millisecondsInMonth = 1000 * 60 * 60 * 24 * 30; // Примерное количество миллисекунд в месяце
+    var differenceInMonths = Math.round((badDebtClosingDate - loanDate) / millisecondsInMonth);
 
-    if (monthsDifference > 24) {
+    if (differenceInMonths > 24) {
         return "Восстановление не требуется";
     }
 
-    return monthsDifference;
+    return differenceInMonths + " месяцев";
 }
-
-// Обработчик изменения поля с пенсионными отчислениями для автоматического обновления суммы одобрения
-document.getElementById("pensionContributions").addEventListener("input", function() {
-    calculateApprovalAmount(); // Вызываем функцию для расчета суммы одобрения
-});
 
 // Функция для расчета суммы одобрения
 function calculateApprovalAmount() {
@@ -86,3 +80,8 @@ function calculateApprovalAmount() {
     // Устанавливаем значение в поле суммы одобрения
     document.getElementById("approvalAmount").value = approvalAmount;
 }
+
+// Обработчик изменения поля с пенсионными отчислениями для автоматического обновления суммы одобрения
+document.getElementById("pensionContributions").addEventListener("input", function() {
+    calculateApprovalAmount(); // Вызываем функцию для расчета суммы одобрения
+});
