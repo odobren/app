@@ -78,3 +78,26 @@ function calculateApprovalAmount() {
     // Устанавливаем значение в поле суммы одобрения
     document.getElementById("approvalAmount").value = approvalAmount;
 }
+
+
+// Обработчик изменения поля "Дата закрытия крупной просрочки"
+document.getElementById("largeOverdueClosingDate").addEventListener("change", function() {
+    calculateCreditHistoryRecovery(); // Вызываем функцию для расчета срока восстановления кредитной истории
+});
+
+// Функция для расчета срока восстановления кредитной истории
+function calculateCreditHistoryRecovery() {
+    var loanDateInput = new Date(document.getElementById("loanDate").value);
+    var largeOverdueClosingDateInput = new Date(document.getElementById("largeOverdueClosingDate").value);
+
+    if (!loanDateInput || !largeOverdueClosingDateInput) return;
+
+    var monthsDifference = (largeOverdueClosingDateInput.getMonth() - loanDateInput.getMonth()) +
+        (12 * (largeOverdueClosingDateInput.getFullYear() - loanDateInput.getFullYear()));
+
+    if (monthsDifference <= 24) {
+        document.getElementById("creditHistoryRecovery").value = monthsDifference;
+    } else {
+        document.getElementById("creditHistoryRecovery").value = "Восстановление не требуется";
+    }
+}
