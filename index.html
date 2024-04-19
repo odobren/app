@@ -13,7 +13,6 @@
 </header>
 <div class="container">
     <form id="loanForm" autocomplete="off">
-     
         <label for="loanDate">Дата:</label>
         <input type="date" id="loanDate" required><br>
         
@@ -28,14 +27,13 @@
         
         <label for="loanTerm">Срок кредита (в годах):</label>
         <input type="number" id="loanTerm" value="15" readonly><br>
-
-        <!-- Новые поля -->
+        
         <label for="pensionContributions">Пенсионные отчисления за 6 месяцев:</label>
         <input type="text" id="pensionContributions" required inputmode="numeric"><br>
-        
-        <label for="approvalAmount">Сумма одобрения:</label>
+
+        <label for="approvalAmount">Сумма одобрения (в тенге):</label>
         <input type="text" id="approvalAmount" readonly><br>
-        
+
         <button type="submit">Рассчитать</button>
     </form>
     <div id="monthlyPayment"></div>
