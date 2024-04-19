@@ -44,15 +44,11 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
         var formattedMonthlyPayment = monthlyPayment.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
         // Рассчитываем срок восстановления кредитной истории
-        var loanDate = new Date(loanDateInput);
-        var closingDate = new Date(closingDateInput);
-        var monthsDifference = (closingDate.getFullYear() - loanDate.getFullYear()) * 12 + (closingDate.getMonth() - loanDate.getMonth());
-        var recoveryTerm = (monthsDifference > 24) ? "Восстановление не требуется" : monthsDifference + " месяцев";
+        calculateRecoveryTerm();
 
         // Выводим результаты на страницу
         document.getElementById("monthlyPayment").innerText = "Ежемесячный платеж: " + formattedMonthlyPayment + " тенге";
         document.getElementById("approvalAmount").value = approvalAmount; // Устанавливаем значение в поле суммы одобрения
-        document.getElementById("recoveryTerm").value = recoveryTerm; // Устанавливаем значение в поле срока восстановления
     } catch (error) {
         alert("Произошла ошибка при расчете. Пожалуйста, проверьте введенные данные и попробуйте еще раз.");
     }
@@ -86,3 +82,33 @@ function calculateApprovalAmount() {
     // Устанавливаем значение в поле суммы одобрения
     document.getElementById("approvalAmount").value = approvalAmount;
 }
+
+// Обработчик изменения поля Дата закрытия крупной просрочки для автоматического обновления срока восстановления кредитной истории
+document.getElementById("closingDate").addEventListener("change", function() {
+    calculateRecoveryTerm(); // Вызываем функцию для расчета срока восстановления кредитной истории
+});
+
+// Функция для расчета срока восстановления кредитной истории
+function calculateRecoveryTerm() {
+    var loanDateInput = document.getElementById("loanDate").value.trim();
+    var closingDateInput = document.getElementById("closingDate").value.trim();
+
+    // Проверяем, указаны ли обе даты
+    if (loanDateInput === "" || closingDateInput === "") {
+        // Если одна из дат не указана, просто выходим из функции
+        return;
+    }
+
+    var loanDate = new Date(loanDateInput);
+    var closingDate = new Date(closingDateInput);
+    var monthsDifference = Math.max(0, (closingDate.getFullYear() - loanDate.getFullYear()) * 12 + (closingDate.getMonth() - loanDate.getMonth()));
+
+    if (monthsDifference > 24) {
+        document.getElementById("recoveryTerm").value = "Восстановление не требуется";
+    } else {
+        document.getElementById("recoveryTerm").value = monthsDifference + " месяцев";
+    }
+}
+
+// Вызываем функцию для автоматического расчета срока восстановления кредитной истории при загрузке страницы
+calculateRecoveryTerm();
