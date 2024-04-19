@@ -13,10 +13,12 @@
 </header>
 <div class="container">
     <form id="loanForm" autocomplete="off">
-        <label for="loanAmount">Сумма кредита (в тенге):</label>
-        <input type="text" id="loanAmount" required inputmode="numeric"><br>
         <label for="borrowerAge">Возраст заемщика:</label>
         <input type="number" id="borrowerAge" required min="18" max="68" inputmode="numeric"><br>
+        
+        <label for="loanAmount">Сумма кредита (в тенге):</label>
+        <input type="text" id="loanAmount" required inputmode="numeric"><br>
+        
         <label for="loanTerm">Срок кредита (в годах):</label>
         <input type="number" id="loanTerm" value="15" readonly><br> <!-- Изменен атрибут value -->
         <button type="submit">Рассчитать</button>
