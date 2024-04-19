@@ -1,19 +1,3 @@
-document.getElementById("borrowerAge").addEventListener("input", function() {
-    var borrowerAge = parseInt(this.value);
-    var loanTermInput = document.getElementById("loanTerm");
-    
-    // Максимальный срок кредита устанавливается как разница между максимальным возрастом и возрастом заемщика, но не более 15 лет
-    var maxLoanTerm = Math.min(68 - borrowerAge, 15);
-    
-    // Ограничиваем текущее значение срока кредита новым максимальным значением
-    loanTermInput.max = maxLoanTerm;
-    
-    // Если текущее значение срока кредита превышает новый максимальный срок, обновляем его
-    if (parseFloat(loanTermInput.value) > maxLoanTerm) {
-        loanTermInput.value = maxLoanTerm;
-    }
-});
-
 document.getElementById("loanForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -54,4 +38,19 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     } catch (error) {
         alert("Произошла ошибка при расчете. Пожалуйста, проверьте введенные данные и попробуйте еще раз.");
     }
+});
+
+// Обработчик события изменения возраста заемщика
+document.getElementById("borrowerAge").addEventListener("input", function() {
+    var borrowerAgeInput = document.getElementById("borrowerAge").value.trim();
+    var loanTermInput = document.getElementById("loanTerm").value.trim();
+    
+    if (borrowerAgeInput === "") {
+        return;
+    }
+    
+    var borrowerAge = parseInt(borrowerAgeInput);
+    var maxLoanTerm = Math.min(68 - borrowerAge, 15);
+
+    document.getElementById("loanTerm").value = maxLoanTerm;
 });
