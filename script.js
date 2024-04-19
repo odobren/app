@@ -105,3 +105,8 @@ function calculateCreditHistoryRecoveryTerm() {
         document.getElementById("creditHistoryRecoveryTerm").value = differenceInMonths + " месяцев";
     }
 }
+// Обработчик изменения поля "Дата закрытия крупной просрочки" для автоматического обновления срока восстановления кредитной истории
+document.getElementById("majorDefaultClosureDate").addEventListener("input", function() {
+    calculateCreditHistoryRecoveryTerm(); // Вызываем функцию для расчета срока восстановления кредитной истории
+});
+
