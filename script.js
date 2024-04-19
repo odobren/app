@@ -1,6 +1,4 @@
-
-
-document.getElementById("loanForm2").addEventListener("submit", function(event) {
+document.getElementById("loanForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
     var loanAmount = parseFloat(document.getElementById("loanAmount").value.replace(/\D/g, ''));
