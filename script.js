@@ -10,13 +10,14 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     }
 
     var loanAmount = parseFloat(loanAmountInput.replace(/\D/g, ''));
-    var annualInterestRate = 18.5; // Установка процентной ставки на 18.5%
     var loanTermYears = parseInt(loanTermInput);
 
     if (isNaN(loanAmount) || isNaN(loanTermYears) || loanAmount <= 0 || loanTermYears <= 0) {
         alert("Пожалуйста, введите корректные данные.");
         return;
     }
+
+    var annualInterestRate = 18.5; // Процентная ставка 18.5%
 
     var monthlyInterestRate = annualInterestRate / 100 / 12;
     var loanTermMonths = loanTermYears * 12;
@@ -34,3 +35,7 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
         alert("Произошла ошибка при расчете. Пожалуйста, проверьте введенные данные и попробуйте еще раз.");
     }
 });
+
+// Скрыть поле ввода процентной ставки
+document.getElementById("annualInterestRate").style.display = "none";
+document.querySelector("label[for='annualInterestRate']").style.display = "none";
