@@ -12,28 +12,19 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
 
     var loanAmount = parseFloat(loanAmountInput.replace(/\D/g, ''));
     var loanTermYears = parseFloat(loanTermInput);
-    var borrowerAge = parseFloat(borrowerAgeInput);
+    var borrowerAge = parseInt(borrowerAgeInput);
 
-    if (isNaN(loanAmount) || isNaN(loanTermYears) || isNaN(borrowerAge) || loanAmount <= 0 || loanTermYears <= 0 || borrowerAge <= 0) {
+    if (isNaN(loanAmount) || isNaN(loanTermYears) || isNaN(borrowerAge) || loanAmount <= 0 || loanTermYears <= 0 || borrowerAge < 18 || borrowerAge > 68) {
         alert("Пожалуйста, введите корректные данные.");
         return;
     }
 
-    if (borrowerAge > 68) {
-        alert("Максимальный возраст заемщика 68 лет.");
-        return;
-    }
+    // Определение максимального срока кредита на основе возраста заемщика
+    var maxLoanTerm = Math.min(loanTermYears, 68 - borrowerAge, 15);
 
-    var maxLoanTerm = Math.min(15, 68 - borrowerAge); // Вычисляем максимальный срок кредита, учитывая максимальный возраст заемщика
-
-    if (loanTermYears > maxLoanTerm) {
-        alert("Максимальный срок кредита для вашего возраста " + maxLoanTerm + " лет.");
-        return;
-    }
-    
     var annualInterestRate = 18.5; // Процентная ставка 18.5%
     var monthlyInterestRate = annualInterestRate / 100 / 12;
-    var loanTermMonths = loanTermYears * 12;
+    var loanTermMonths = maxLoanTerm * 12;
     
     try {
         // Рассчитываем ежемесячный платеж
