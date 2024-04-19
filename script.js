@@ -6,49 +6,41 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     var borrowerAgeInput = document.getElementById("borrowerAge").value.trim();
     var borrowerNameInput = document.getElementById("borrowerName").value.trim();
     var loanDateInput = document.getElementById("loanDate").value.trim();
-    var pensionContributionsInput = document.getElementById("pensionContributions").value.trim(); // Новое поле пенсионных отчислений
-    var closingDateInput = document.getElementById("closingDate").value.trim(); // Новое поле даты закрытия просрочки
+    var pensionContributionsInput = document.getElementById("pensionContributions").value.trim();
+    var latePaymentClosureDateInput = document.getElementById("latePaymentClosureDate").value.trim(); // Новое поле для даты закрытия крупной просрочки
 
-    if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "" || pensionContributionsInput === "" || closingDateInput === "") {
+    if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "" || pensionContributionsInput === "" || latePaymentClosureDateInput === "") {
         alert("Пожалуйста, заполните все поля.");
         return;
     }
 
     var loanAmount = parseFloat(loanAmountInput.replace(/\D/g, ''));
     var borrowerAge = parseInt(borrowerAgeInput);
-    var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, '')); // Преобразование в числовой формат
+    var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, ''));
 
     if (isNaN(loanAmount) || isNaN(borrowerAge) || isNaN(pensionContributions) || loanAmount <= 0 || borrowerAge < 18 || borrowerAge > 68) {
         alert("Пожалуйста, введите корректные данные.");
         return;
     }
 
-    // Определение максимального срока кредита на основе возраста заемщика
     var maxLoanTerm = Math.min(15, 68 - borrowerAge);
 
-    // Установка срока кредита в поле ввода
     document.getElementById("loanTerm").value = maxLoanTerm;
 
-    var annualInterestRate = 18.5; // Процентная ставка 18.5%
+    var annualInterestRate = 18.5;
     var monthlyInterestRate = annualInterestRate / 100 / 12;
     var loanTermMonths = maxLoanTerm * 12;
     
     try {
-        // Рассчитываем ежемесячный платеж
         var monthlyPayment = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -loanTermMonths));
-
-        // Рассчитываем сумму одобрения
         var approvalAmount = ((pensionContributions * 8.1 / 6 / 2) / 0.0165).toFixed(2);
 
-        // Форматируем ежемесячный платеж с разделением пробелом
         var formattedMonthlyPayment = monthlyPayment.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
-        // Рассчитываем срок восстановления кредитной истории
-        calculateRecoveryTerm();
-
-        // Выводим результаты на страницу
         document.getElementById("monthlyPayment").innerText = "Ежемесячный платеж: " + formattedMonthlyPayment + " тенге";
-        document.getElementById("approvalAmount").value = approvalAmount; // Устанавливаем значение в поле суммы одобрения
+        document.getElementById("approvalAmount").value = approvalAmount;
+
+        calculateCreditHistoryRecovery(); // Рассчитываем срок восстановления кредитной истории
     } catch (error) {
         alert("Произошла ошибка при расчете. Пожалуйста, проверьте введенные данные и попробуйте еще раз.");
     }
@@ -62,11 +54,23 @@ document.getElementById("borrowerAge").addEventListener("change", function() {
     var borrowerAge = parseInt(borrowerAgeInput);
     var maxLoanTerm = Math.min(15, 68 - borrowerAge);
     document.getElementById("loanTerm").value = maxLoanTerm;
+
+    calculateCreditHistoryRecovery(); // Рассчитываем срок восстановления кредитной истории
 });
 
 // Обработчик изменения поля с пенсионными отчислениями для автоматического обновления суммы одобрения
 document.getElementById("pensionContributions").addEventListener("input", function() {
-    calculateApprovalAmount(); // Вызываем функцию для расчета суммы одобрения
+    calculateApprovalAmount(); // Рассчитываем сумму одобрения
+});
+
+// Обработчик изменения поля Дата
+document.getElementById("loanDate").addEventListener("change", function() {
+    calculateCreditHistoryRecovery(); // Рассчитываем срок восстановления кредитной истории
+});
+
+// Обработчик изменения поля Дата закрытия крупной просрочки
+document.getElementById("latePaymentClosureDate").addEventListener("change", function() {
+    calculateCreditHistoryRecovery(); // Рассчитываем срок восстановления кредитной истории
 });
 
 // Функция для расчета суммы одобрения
@@ -75,40 +79,35 @@ function calculateApprovalAmount() {
 
     if (pensionContributionsInput === "") return;
 
-    var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, '')); // Преобразование в числовой формат
+    var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, ''));
 
     var approvalAmount = ((pensionContributions * 8.1 / 6 / 2) / 0.0165).toFixed(2);
 
-    // Устанавливаем значение в поле суммы одобрения
     document.getElementById("approvalAmount").value = approvalAmount;
 }
 
-// Обработчик изменения поля Дата закрытия крупной просрочки для автоматического обновления срока восстановления кредитной истории
-document.getElementById("closingDate").addEventListener("change", function() {
-    calculateRecoveryTerm(); // Вызываем функцию для расчета срока восстановления кредитной истории
-});
-
 // Функция для расчета срока восстановления кредитной истории
-function calculateRecoveryTerm() {
+function calculateCreditHistoryRecovery() {
     var loanDateInput = document.getElementById("loanDate").value.trim();
-    var closingDateInput = document.getElementById("closingDate").value.trim();
+    var latePaymentClosureDateInput = document.getElementById("latePaymentClosureDate").value.trim();
 
-    // Проверяем, указаны ли обе даты
-    if (loanDateInput === "" || closingDateInput === "") {
-        // Если одна из дат не указана, просто выходим из функции
-        return;
-    }
+    if (loanDateInput === "" || latePaymentClosureDateInput === "") return;
 
     var loanDate = new Date(loanDateInput);
-    var closingDate = new Date(closingDateInput);
-    var monthsDifference = Math.max(0, (closingDate.getFullYear() - loanDate.getFullYear()) * 12 + (closingDate.getMonth() - loanDate.getMonth()));
+    var latePaymentClosureDate = new Date(latePaymentClosureDateInput);
 
-    if (monthsDifference > 24) {
-        document.getElementById("recoveryTerm").value = "Восстановление не требуется";
+    var timeDifference = latePaymentClosureDate.getTime() - loanDate.getTime();
+    var monthsDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 30));
+
+    if (monthsDifference <= 0) {
+        document.getElementById("creditHistoryRecovery").value = "Восстановление не требуется";
+    } else if (monthsDifference <= 24) {
+        document.getElementById("creditHistoryRecovery").value = monthsDifference + " месяцев";
     } else {
-        document.getElementById("recoveryTerm").value = monthsDifference + " месяцев";
+        document.getElementById("creditHistoryRecovery").value = "Восстановление не требуется";
     }
 }
 
-// Вызываем функцию для автоматического расчета срока восстановления кредитной истории при загрузке страницы
-calculateRecoveryTerm();
+// Вызываем функцию при загрузке страницы, чтобы отобразить результаты по умолчанию
+calculateApprovalAmount();
+calculateCreditHistoryRecovery();
