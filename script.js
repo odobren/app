@@ -48,15 +48,7 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
         document.getElementById("approvalAmount").value = approvalAmount; // Устанавливаем значение в поле суммы одобрения
 
         // Рассчитываем срок восстановления кредитной истории
-        var loanDate = new Date(loanDateInput);
-        var latePaymentDate = new Date(latePaymentDateInput);
-        var creditHistoryRecoveryMonths = Math.round((loanDate - latePaymentDate) / (30 * 24 * 60 * 60 * 1000));
-
-        if (creditHistoryRecoveryMonths > 24) {
-            document.getElementById("creditHistoryRecovery").value = "Восстановление не требуется";
-        } else {
-            document.getElementById("creditHistoryRecovery").value = creditHistoryRecoveryMonths + " месяцев";
-        }
+        calculateCreditHistoryRecovery();
     } catch (error) {
         alert("Произошла ошибка при расчете. Пожалуйста, проверьте введенные данные и попробуйте еще раз.");
     }
@@ -72,11 +64,6 @@ document.getElementById("borrowerAge").addEventListener("change", function() {
     document.getElementById("loanTerm").value = maxLoanTerm;
 });
 
-// Обработчик изменения поля с пенсионными отчислениями для автоматического обновления суммы одобрения
-document.getElementById("pensionContributions").addEventListener("input", function() {
-    calculateApprovalAmount(); // Вызываем функцию для расчета суммы одобрения
-});
-
 // Функция для расчета суммы одобрения
 function calculateApprovalAmount() {
     var pensionContributionsInput = document.getElementById("pensionContributions").value.trim();
@@ -89,4 +76,32 @@ function calculateApprovalAmount() {
 
     // Устанавливаем значение в поле суммы одобрения
     document.getElementById("approvalAmount").value = approvalAmount;
+}
+
+// Обработчик изменения поля с датой кредита для автоматического обновления срока восстановления кредитной истории
+document.getElementById("loanDate").addEventListener("change", function() {
+    calculateCreditHistoryRecovery(); // Вызываем функцию для расчета срока восстановления кредитной истории
+});
+
+// Обработчик изменения поля с датой закрытия крупной просрочки для автоматического обновления срока восстановления кредитной истории
+document.getElementById("latePaymentDate").addEventListener("change", function() {
+    calculateCreditHistoryRecovery(); // Вызываем функцию для расчета срока восстановления кредитной истории
+});
+
+// Функция для расчета срока восстановления кредитной истории
+function calculateCreditHistoryRecovery() {
+    var loanDateInput = document.getElementById("loanDate").value.trim();
+    var latePaymentDateInput = document.getElementById("latePaymentDate").value.trim();
+
+    if (loanDateInput === "" || latePaymentDateInput === "") return;
+
+    var loanDate = new Date(loanDateInput);
+    var latePaymentDate = new Date(latePaymentDateInput);
+    var creditHistoryRecoveryMonths = Math.round((loanDate - latePaymentDate) / (30 * 24 * 60 * 60 * 1000));
+
+    if (creditHistoryRecoveryMonths > 24) {
+        document.getElementById("creditHistoryRecovery").value = "Восстановление не требуется";
+    } else {
+        document.getElementById("creditHistoryRecovery").value = creditHistoryRecoveryMonths + " месяцев";
+    }
 }
