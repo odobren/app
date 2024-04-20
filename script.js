@@ -116,4 +116,8 @@ var creditHistoryRecovery = 24 - monthsDifference; // Рассчитываем �
 document.getElementById("creditHistoryRecovery").value = Math.max(creditHistoryRecovery, 0); // Устанавливаем значение в поле
 }
 
+// Добавляем обработчик клика на кнопку "Нет просрочки"
+document.getElementById("noDelayButton").addEventListener("click", function() {
+    document.getElementById("creditHistoryRecovery").value = "Нет просрочки"; // Устанавливаем значение
+});
 
