@@ -5,6 +5,8 @@ window.addEventListener("load", function() {
     }, 3000); // 3000 миллисекунд = 3 секунды
 });
 
+// Перенаправление на страницу результатов и передача параметров URL
+window.location.href = `results.html?borrowerName=${borrowerNameInput}&borrowerAge=${borrowerAgeInput}&loanAmount=${loanAmountInput}&loanTerm=${maxLoanTerm}&pensionContributions=${pensionContributionsInput}&approvalAmount=${approvalAmount}&loanCloseDate=${loanCloseDateInput}&creditHistoryRecovery=${creditHistoryRecovery}`;
 
 
 
