@@ -7,16 +7,15 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-     <div id="loader">
-    <div class="loader-circle"></div> <!-- Этот элемент будет отображать анимацию загрузки -->
-
+<div id="loader">
+    <div class="loader-circle"></div>
 </div>
 
 <header>
     <img src="logo.png" alt="Логотип">
     <h2>Кредитный калькулятор</h2>
 </header>
-     
+
 <div class="container">
     <form id="loanForm" autocomplete="off">
         <label for="loanDate">Дата:</label>
@@ -35,20 +34,16 @@
         <input type="number" id="loanTerm" value="15" readonly><br>
         
         <label for="pensionContributions">Пенсионные отчисления за 6 месяцев:</label>
-<input type="text" id="pensionContributions" required inputmode="numeric"><br>
+        <input type="text" id="pensionContributions" required inputmode="numeric"><br>
 
-<label for="approvalAmount">Сумма одобрения:</label>
-<input type="text" id="approvalAmount" readonly><br>
+        <label for="approvalAmount">Сумма одобрения:</label>
+        <input type="text" id="approvalAmount" readonly><br>
         
-<label for="loanCloseDate">Дата закрытия крупной просрочки:</label>
+        <label for="loanCloseDate">Дата закрытия крупной просрочки:</label>
         <input type="date" id="loanCloseDate"><br>
+
         <label for="creditHistoryRecovery">Срок восстановления КИ (в месяцах):</label>
         <input type="text" id="creditHistoryRecovery" readonly><br>
-
-
-
-
-
 
         <button type="submit">Рассчитать</button>
     </form>
