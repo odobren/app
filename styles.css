@@ -1,10 +1,15 @@
 /* Стили для анимации загрузки */
 #loader {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Центрируем по горизонтали и вертикали */
-    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный белый фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Устанавливаем высокий z-index, чтобы анимация загрузки была поверх остального контента */
 }
 
 .loader-circle {
@@ -32,10 +37,11 @@
     left: 50%;
     transform: translateX(-50%);
     font-size: 16px;
-    color: #333; /* Цвет текста */
+    color: #fff; /* Белый цвет текста */
     opacity: 0; /* По умолчанию текст скрыт */
     transition: opacity 0.3s ease; /* Плавное появление текста */
 }
+
 
 
 body {
