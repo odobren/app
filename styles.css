@@ -1,24 +1,23 @@
-/* Стили для анимации загрузки */
 #loader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #fff; /* Белый фон */
+    background-color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Устанавливаем высокий z-index, чтобы анимация загрузки была поверх остального контента */
+    z-index: 9999;
 }
 
 .loader-circle {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: 6px solid #ffcc00; /* Желтая окантовка */
-    border-top: 6px solid transparent; /* Добавляем прозрачность к верхней границе */
-    animation: spin 1s linear infinite; /* Анимация вращения */
+    border: 6px solid #ffcc00;
+    border-top: 6px solid transparent;
+    animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
@@ -29,20 +28,6 @@
         transform: rotate(360deg);
     }
 }
-/* Стили для текста "Официальное приложение Odobren Projects" */
-#officialAppText {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #000;
-    font-size: 16px;
-    opacity: 0; /* По умолчанию скрываем текст */
-    transition: opacity 0.3s ease; /* Анимация появления/исчезания */
-}
-
-
-
 
 body {
     background-color: #fff;
@@ -64,13 +49,13 @@ header {
 header img {
     width: 150px;
     height: auto;
-    margin-top: 30px; /* Пустое место наверху логотипа */
-    margin-bottom: 10px; /* Опускаем логотип ниже */
+    margin-top: 30px;
+    margin-bottom: 10px;
 }
 
 h2 {
     color: #ffcc00;
-    margin-top: 10px; /* Приближаем заголовок к логотипу */
+    margin-top: 10px;
 }
 
 .container {
@@ -120,11 +105,21 @@ button[type="submit"]:hover {
     margin-top: 20px;
 }
 
-/* Стили для выравнивания заголовка и поля ввода даты в одну строку */
 label[for="birthDate"] {
     display: inline-block;
-    width: 90px; /* Ширина заголовка */
+    width: 90px;
     text-align: right;
     margin-right: 10px;
-    margin-bottom: 0; /* Убираем лишний отступ снизу */
+    margin-bottom: 0;
+}
+
+#officialAppText {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #000;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
