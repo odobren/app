@@ -1,12 +1,14 @@
-// charts.js
+// chart.js
 
 // Функция для отображения графика
-function displayChart(monthlyPayments) {
-    var ctx = document.getElementById('paymentChart').getContext('2d');
-    var myChart = new Chart(ctx, {
+function renderChart(monthlyPayments) {
+    const ctx = document.getElementById('paymentChart').getContext('2d');
+
+    // Создаем новый график
+    new Chart(ctx, {
         type: 'line',
         data: {
-            labels: Array.from({ length: monthlyPayments.length }, (_, i) => `Месяц ${i + 1}`),
+            labels: monthlyPayments.map((_, index) => `Месяц ${index + 1}`), // Метки оси X
             datasets: [{
                 label: 'Ежемесячный платеж',
                 data: monthlyPayments,
