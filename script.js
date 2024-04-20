@@ -116,7 +116,4 @@ var creditHistoryRecovery = 24 - monthsDifference; // Рассчитываем �
 document.getElementById("creditHistoryRecovery").value = Math.max(creditHistoryRecovery, 0); // Устанавливаем значение в поле
 }
 
-// Перенаправление на страницу результатов и передача параметров URL
-window.location.href = `results.html?borrowerName=${borrowerNameInput}&borrowerAge=${borrowerAgeInput}&loanAmount=${loanAmountInput}&loanTerm=${maxLoanTerm}&pensionContributions=${pensionContributionsInput}&approvalAmount=${approvalAmount}&loanCloseDate=${loanCloseDateInput}&creditHistoryRecovery=${creditHistoryRecovery}`;
-
 
