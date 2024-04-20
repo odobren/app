@@ -71,3 +71,7 @@ function calculateCreditHistoryRecovery() {
 
 // Подключаем файл с графиками
 import './chart.js';
+// script.js
+
+// После расчета ежемесячного платежа
+displayChart(monthlyPayments);
