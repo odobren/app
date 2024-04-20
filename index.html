@@ -5,19 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Кредитный калькулятор</title>
 <link rel="stylesheet" href="styles.css">
-    <style>
-    .container {
-        display: flex;
-        justify-content: space-between;
-    }
-    .calculator {
-        flex: 1;
-        margin-right: 20px;
-    }
-    #chartContainer {
-        flex: 1;
-    }
-</style>
+    
 </head>
 <body>
 <div id="loader">
@@ -63,10 +51,10 @@
     <div id="monthlyPayment"></div>
 </div>
 
-<canvas id="chartContainer" width="800" height="400"></canvas>
+<div id="chartContainer">
+    <h3>График изменения ежемесячного платежа</h3>
+    <div id="chart"></div>
 </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Подключаем Chart.js -->
-<script src="chart_script.js"></script> <!-- Подключаем наш скрипт для работы с графиками -->
 <script src="script.js"></script>
 </body>
 </html>
