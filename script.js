@@ -1,4 +1,3 @@
-// Скрипт для анимации загрузки
 window.addEventListener("load", function() {
     setTimeout(function() {
         document.getElementById("loader").style.display = "none"; // Скрываем анимацию после 3 секунд
@@ -17,11 +16,13 @@ document.getElementById("loanForm").addEventListener("submit", function(event) {
     var pensionContributionsInput = document.getElementById("pensionContributions").value.trim(); // Новое поле пенсионных отчислений
     var loanCloseDateInput = document.getElementById("loanCloseDate").value.trim(); // Новое поле закрытия крупной просрочки
 
-    if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "" || pensionContributionsInput === "" || loanCloseDateInput === "") {
-        alert("Пожалуйста, заполните все поля.");
+    // Проверяем, заполнены ли обязательные поля
+    if (loanAmountInput === "" || borrowerAgeInput === "" || borrowerNameInput === "" || loanDateInput === "" || pensionContributionsInput === "") {
+        alert("Пожалуйста, заполните все обязательные поля.");
         return;
     }
 
+    // Продолжаем только если заполнены обязательные поля
     var loanAmount = parseFloat(loanAmountInput.replace(/\D/g, ''));
     var borrowerAge = parseInt(borrowerAgeInput);
     var pensionContributions = parseFloat(pensionContributionsInput.replace(/\D/g, '')); // Преобразование в числовой формат
@@ -77,7 +78,7 @@ document.getElementById("borrowerAge").addEventListener("change", function() {
 
 // Обработчик изменения поля с пенсионными отчислениями для автоматического обновления суммы одобрения
 document.getElementById("pensionContributions").addEventListener("input", function() {
-    calculateApprovalAmount(); // Вызываем функцию для расчета суммы одобрения
+    calculateApprovalAmount(); // Вызываем функцию для рассчета суммы одобрения
 });
 
 // Обработчик изменения поля с датой закрытия крупной просрочки
@@ -85,10 +86,12 @@ document.getElementById("loanCloseDate").addEventListener("change", function() {
     calculateCreditHistoryRecovery(); // Вызываем функцию для расчета срока восстановления кредитной истории
 });
 
-// Обработчик кнопки "Нет просрочки"
-document.getElementById("noDelayButton").addEventListener("click", function() {
-    document.getElementById("loanCloseDate").value = ""; // Очищаем поле "Дата закрытия крупной просрочки"
-    document.getElementById("creditHistoryRecovery").value = "Нет просрочки"; // Устанавливаем значение "Нет просрочки"
+// Обработчик клика по кнопке "Нет просрочки"
+document.getElementById("noLatePaymentButton").addEventListener("click", function() {
+    // Устанавливаем значение "Нет просрочки" в поле "Срок восстановления кредитной истории (в месяцах)"
+    document.getElementById("creditHistoryRecovery").value = "Нет просрочки";
+    // Очищаем значение в поле "Дата закрытия крупной просрочки"
+    document.getElementById("loanCloseDate").value = "";
 });
 
 // Функция для расчета суммы одобрения
