@@ -1,38 +1,24 @@
-// chart.js
+// charts.js
 
-// Функция для создания и обновления графика
-function updateChart(loanAmount, loanTerm, monthlyPaymentValues) {
-    // Получаем элемент, в который будем встраивать график (допустим, это div с id="chart")
-    const chartContainer = document.getElementById("chart");
-
-    // Очищаем контейнер перед созданием нового графика
-    chartContainer.innerHTML = "";
-
-    // Создаем новый элемент canvas для графика
-    const canvas = document.createElement("canvas");
-    chartContainer.appendChild(canvas);
-
-    // Получаем контекст для рисования на canvas
-    const ctx = canvas.getContext("2d");
-
-    // Создаем новый график с помощью библиотеки Chart.js
-    const chart = new Chart(ctx, {
-        type: 'line', // Тип графика (линейный)
+// Функция для отображения графика
+function displayChart(monthlyPayments) {
+    var ctx = document.getElementById('paymentChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
         data: {
-            labels: Array.from({ length: loanTerm }, (_, i) => i + 1), // Метки по оси X (месяцы)
+            labels: Array.from({ length: monthlyPayments.length }, (_, i) => `Месяц ${i + 1}`),
             datasets: [{
-                label: 'Ежемесячный платеж', // Название набора данных
-                data: monthlyPaymentValues, // Данные для отображения
-                borderColor: 'rgb(255, 99, 132)', // Цвет линии
-                borderWidth: 2, // Толщина линии
-                fill: false // Не заливать область под линией
+                label: 'Ежемесячный платеж',
+                data: monthlyPayments,
+                fill: false,
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
             }]
         },
         options: {
-            responsive: true, // Адаптивность графика
             scales: {
                 y: {
-                    beginAtZero: true // Начинать отображение с 0 по оси Y
+                    beginAtZero: true
                 }
             }
         }
