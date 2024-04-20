@@ -1,11 +1,15 @@
-/* Стили для текста загрузки */
-#loadingText {
-    margin-top: 20px; /* Отступ от анимации загрузки */
-    text-align: center; /* Центрируем текст */
+/* Стили для текста */
+#officialAppText {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
     color: #333; /* Цвет текста */
-    font-size: 16px; /* Размер шрифта */
-    font-weight: bold; /* Полужирный шрифт */
+    opacity: 0; /* По умолчанию текст скрыт */
+    transition: opacity 0.3s ease; /* Плавное появление текста */
 }
+
 
 
 /* Стили для анимации загрузки */
