@@ -27,6 +27,7 @@ header img {
     background-color: #f2f2f2;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    margin-bottom: 50px; /* Добавленный отступ внизу контейнера */
 }
 
 h2 {
@@ -69,13 +70,4 @@ button[type="submit"]:hover {
 
 #monthlyPayment {
     margin-top: 20px;
-}
-
-/* Стили для выравнивания заголовка и поля ввода даты в одну строку */
-label[for="birthDate"] {
-    display: inline-block;
-    width: 90px; /* Ширина заголовка */
-    text-align: right;
-    margin-right: 10px;
-    margin-bottom: 0; /* Убираем лишний отступ снизу */
 }
