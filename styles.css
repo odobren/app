@@ -18,7 +18,7 @@ header {
 header img {
     width: 150px;
     height: auto;
-    margin-top: 20px; /* Пустое место наверху логотипа */
+    margin-top: 30px; /* Пустое место наверху логотипа */
     margin-bottom: 10px; /* Опускаем логотип ниже */
 }
 
