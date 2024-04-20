@@ -1,6 +1,12 @@
 window.addEventListener("load", function() {
+    // Показываем анимацию загрузки
+    var loader = document.getElementById("loader");
+    loader.style.display = "block"; // Показываем анимацию загрузки
+
+    // Скрываем анимацию загрузки и показываем текст после 3 секунд
     setTimeout(function() {
-        document.getElementById("loader").style.display = "none"; // Скрываем анимацию после 3 секунд
+        loader.style.display = "none"; // Скрываем анимацию загрузки
+        document.getElementById("officialAppText").style.opacity = 1; // Показываем текст
     }, 3000); // 3000 миллисекунд = 3 секунды
 });
 
