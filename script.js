@@ -1,3 +1,11 @@
+window.addEventListener("load", function() {
+    setTimeout(function() {
+        document.getElementById("loader").style.display = "none"; // Скрываем анимацию после 3 секунд
+    }, 3000); // 3000 миллисекунд = 3 секунды
+});
+
+
+
 // Обработчик отправки формы
 document.getElementById("loanForm").addEventListener("submit", function(event) {
     event.preventDefault();
