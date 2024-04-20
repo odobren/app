@@ -13,19 +13,12 @@ body {
 header {
     text-align: center;
     margin-bottom: 20px;
-    position: relative; /* Добавляем позиционирование */
 }
 
 header img {
     width: 150px;
     height: auto;
-    position: absolute; /* Позиционируем логотип абсолютно */
-    top: 100%; /* Размещаем логотип относительно нижней границы родительского элемента */
-    left: 50%; /* Размещаем логотип в центре родительского элемента */
-    transform: translateX(-50%); /* Центрируем логотип по горизонтали */
 }
-
-
 
 .container {
     width: 350px;
@@ -50,7 +43,8 @@ label {
 }
 
 input[type="number"],
-input[type="text"] {
+input[type="text"],
+input[type="date"] {
     width: calc(100% - 22px);
     padding: 8px;
     border-radius: 5px;
@@ -77,16 +71,6 @@ button[type="submit"]:hover {
     margin-top: 20px;
 }
 
-
-/* Добавленные стили для поля ввода даты */
-input[type="date"] {
-    width: calc(100% - 22px);
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-}
-
 /* Стили для выравнивания заголовка и поля ввода даты в одну строку */
 label[for="birthDate"] {
     display: inline-block;
@@ -94,34 +78,4 @@ label[for="birthDate"] {
     text-align: right;
     margin-right: 10px;
     margin-bottom: 0; /* Убираем лишний отступ снизу */
-}
-
-
-
-
-
-/* Стили для поля "Дата закрытия крупной просрочки" */
-input[type="date"] {
-  width: calc(100% - 22px);
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
-}
-
-/* Стили для поля "Срок восстановления кредитной истории" */
-label[for="creditHistoryRecoveryPeriod"] {
-  display: inline-block;
-  width: 230px; /* Ширина заголовка */
-  text-align: right;
-  margin-right: 10px;
-  margin-bottom: 0; /* Убираем лишний отступ снизу */
-}
-
-input[type="text"]#creditHistoryRecoveryPeriod {
-  width: calc(100% - 250px); /* Ширина поля ввода */
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
 }
