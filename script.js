@@ -1,3 +1,4 @@
+// Скрипт для анимации загрузки
 window.addEventListener("load", function() {
     setTimeout(function() {
         document.getElementById("loader").style.display = "none"; // Скрываем анимацию после 3 секунд
@@ -84,14 +85,10 @@ document.getElementById("loanCloseDate").addEventListener("change", function() {
     calculateCreditHistoryRecovery(); // Вызываем функцию для расчета срока восстановления кредитной истории
 });
 
-// Обработчик клика по кнопке "Нет просрочки"
-document.getElementById("noOverdueButton").addEventListener("click", function() {
-    // Устанавливаем значение "Нет просрочки" в поле Дата закрытия крупной просрочки
-    document.getElementById("loanCloseDate").value = "";
-    // Автоматически рассчитываем срок восстановления кредитной истории
-    calculateCreditHistoryRecovery();
-    // Игнорируем проверку и удаляем сообщение об ошибке, если оно было
-    document.getElementById("loanCloseDate").setCustomValidity(""); 
+// Обработчик кнопки "Нет просрочки"
+document.getElementById("noDelayButton").addEventListener("click", function() {
+    document.getElementById("loanCloseDate").value = ""; // Очищаем поле "Дата закрытия крупной просрочки"
+    document.getElementById("creditHistoryRecovery").value = "Нет просрочки"; // Устанавливаем значение "Нет просрочки"
 });
 
 // Функция для расчета суммы одобрения
@@ -113,19 +110,13 @@ function calculateCreditHistoryRecovery() {
     var loanDateInput = document.getElementById("loanDate").value.trim();
     var loanCloseDateInput = document.getElementById("loanCloseDate").value.trim();
 
-    var creditHistoryRecovery;
+    if (loanDateInput === "" || loanCloseDateInput === "") return;
 
-    // Если указана дата закрытия просрочки
-    if (loanCloseDateInput !== "") {
-        var loanDate = new Date(loanDateInput);
-        var loanCloseDate = new Date(loanCloseDateInput);
-        var monthsDifference = (loanDate.getFullYear() - loanCloseDate.getFullYear()) * 12 + loanDate.getMonth() - loanCloseDate.getMonth();
-        creditHistoryRecovery = 24 - monthsDifference; // Рассчитываем срок восстановления кредитной истории
-    } else {
-        // Если нет просрочки, срок восстановления равен 0
-        creditHistoryRecovery = 0;
-    }
+    var loanDate = new Date(loanDateInput);
+    var loanCloseDate = new Date(loanCloseDateInput);
+    var monthsDifference = (loanDate.getFullYear() - loanCloseDate.getFullYear()) * 12 + loanDate.getMonth() - loanCloseDate.getMonth();
 
-    // Устанавливаем значение в поле
-    document.getElementById("creditHistoryRecovery").value = Math.max(creditHistoryRecovery, 0);
+    var creditHistoryRecovery = 24 - monthsDifference; // Рассчитываем срок восстановления кредитной истории
+
+    document.getElementById("creditHistoryRecovery").value = Math.max(creditHistoryRecovery, 0); // Устанавливаем значение в поле
 }
