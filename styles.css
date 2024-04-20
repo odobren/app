@@ -18,12 +18,12 @@ header {
 header img {
     width: 150px;
     height: auto;
-    margin-bottom: 15px; /* Опускаем логотип ниже */
+    margin-bottom: 5px; /* Опускаем логотип ниже */
 }
 
 h2 {
     color: #ffcc00;
-    margin-top: 15px; /* Приближаем заголовок к логотипу */
+    margin-top: 5px; /* Приближаем заголовок к логотипу */
 }
 
 .container {
