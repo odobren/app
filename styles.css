@@ -13,12 +13,19 @@ body {
 header {
     text-align: center;
     margin-bottom: 20px;
+    position: relative; /* Добавляем позиционирование */
 }
 
 header img {
     width: 150px;
     height: auto;
+    position: absolute; /* Позиционируем логотип абсолютно */
+    top: 100%; /* Размещаем логотип относительно нижней границы родительского элемента */
+    left: 50%; /* Размещаем логотип в центре родительского элемента */
+    transform: translateX(-50%); /* Центрируем логотип по горизонтали */
 }
+
+
 
 .container {
     width: 350px;
